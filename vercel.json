@@ -1,0 +1,12 @@
+{
+  "projectSettings": {
+    "framework": null
+  },
+  "buildCommand": "cd apexad-website && npm install && npm run build",
+  "outputDirectory": "apexad-website/build",
+  "installCommand": "cd apexad-website && npm install",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+} 
