@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "cd apexad-website && npm install --legacy-peer-deps && CI=false npm run build",
-    "start": "cd apexad-website && npm start"
+    "start": "cd apexad-website && npm start",
+    "dev": "cd apexad-website && npm start"
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
