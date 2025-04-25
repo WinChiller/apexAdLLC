@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd apexad-website && npm install --legacy-peer-deps && CI=false npm run build",
+    "build": "cd apexad-website && npm ci --legacy-peer-deps && CI=false npm run build",
     "start": "cd apexad-website && npm start",
     "dev": "cd apexad-website && npm start"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
