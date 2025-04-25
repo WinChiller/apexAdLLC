@@ -6,8 +6,12 @@ echo "NPM version: $(npm -v)"
 
 cd apexad-website
 
+echo "Cleaning cache directories..."
+rm -rf node_modules/.cache || true
+rm -rf .npm || true
+
 echo "Installing dependencies..."
-npm ci --legacy-peer-deps --prefer-offline --no-audit
+npm install --legacy-peer-deps --no-audit --prefer-offline
 
 echo "Building project..."
 export CI=false

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd apexad-website && npm ci --legacy-peer-deps && CI=false npm run build",
+    "build": "cd apexad-website && (rimraf node_modules/.cache || true) && npm install --legacy-peer-deps && CI=false npm run build",
     "start": "cd apexad-website && npm start",
     "dev": "cd apexad-website && npm start"
   },
@@ -15,6 +15,7 @@
     "framer-motion": "^12.8.0",
     "lucide-react": "^0.503.0",
     "postcss": "^8.5.3",
+    "rimraf": "^3.0.2",
     "tailwindcss": "^4.1.4"
   }
 }
