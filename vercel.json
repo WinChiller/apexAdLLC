@@ -1,7 +1,5 @@
 {
-  "projectSettings": {
-    "framework": null
-  },
+  "version": 2,
   "buildCommand": "cd apexad-website && npm install && npm run build",
   "outputDirectory": "apexad-website/build",
   "installCommand": "cd apexad-website && npm install",
