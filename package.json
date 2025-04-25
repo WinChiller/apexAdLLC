@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd apexad-website && npm install --legacy-peer-deps && npm run build",
+    "build": "cd apexad-website && npm install --legacy-peer-deps && CI=false npm run build",
     "start": "cd apexad-website && npm start"
   },
   "dependencies": {

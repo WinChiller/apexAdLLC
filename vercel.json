@@ -11,5 +11,8 @@
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CI": "false",
     "SKIP_PREFLIGHT_CHECK": "true"
+  },
+  "github": {
+    "silent": false
   }
 } 
