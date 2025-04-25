@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "node build.js",
+  "buildCommand": "node vercel-build.js",
   "outputDirectory": "apexad-website/build",
-  "installCommand": "npm install --no-progress",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
   "public": true,
   "cleanUrls": true
 }

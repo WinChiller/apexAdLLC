@@ -1,88 +1,72 @@
-// Cross-platform build script with improved timeout handling
-const { execSync, spawn } = require('child_process');
+// Simplified build script with better error handling
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// Set environment variables
-process.env.CI = 'false';
-process.env.NODE_OPTIONS = '--max-old-space-size=8192'; // Increase memory limit
-
-console.log('Starting build process at:', new Date().toISOString());
+// Print debugging information
+console.log('Starting build process...');
 console.log('Node version:', process.version);
+console.log('Current directory:', process.cwd());
+console.log('Directory contents:', fs.readdirSync('.'));
 
-// Function to execute command with timeout
-function execWithTimeout(command, timeoutMs = 300000) { // 5-minute timeout
-  console.log(`Running command with ${timeoutMs/1000}s timeout: ${command}`);
+try {
+  // Set environment variables
+  process.env.CI = 'false';
+  process.env.NODE_OPTIONS = '--max-old-space-size=8192';
   
-  return new Promise((resolve, reject) => {
-    const parts = command.split(' ');
-    const cmd = parts[0];
-    const args = parts.slice(1);
-
-    const proc = spawn(cmd, args, { 
-      shell: true,
-      stdio: 'inherit',
-      env: { ...process.env, CI: 'false', FORCE_COLOR: '1' }
-    });
-    
-    // Set timeout
-    const timeout = setTimeout(() => {
-      console.error(`Command timed out after ${timeoutMs/1000} seconds: ${command}`);
-      proc.kill();
-      reject(new Error(`Command timed out: ${command}`));
-    }, timeoutMs);
-    
-    proc.on('exit', (code) => {
-      clearTimeout(timeout);
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`Command failed with exit code ${code}: ${command}`));
-      }
-    });
-    
-    proc.on('error', (err) => {
-      clearTimeout(timeout);
-      reject(err);
-    });
-  });
-}
-
-async function build() {
-  try {
-    // Clean cache directory if it exists
-    const cacheDir = path.join(__dirname, 'apexad-website', 'node_modules', '.cache');
+  // Clean cache directory if it exists
+  const cacheDir = path.join(__dirname, 'apexad-website', 'node_modules', '.cache');
+  if (fs.existsSync(cacheDir)) {
+    console.log('Cleaning cache directory...');
     try {
-      if (fs.existsSync(cacheDir)) {
-        console.log('Cleaning cache directory...');
-        fs.rmSync(cacheDir, { recursive: true, force: true });
-      }
+      fs.rmSync(cacheDir, { recursive: true, force: true });
     } catch (err) {
       console.log('Warning: Failed to clean cache directory:', err.message);
+      // Continue despite cache cleaning failure
     }
-
-    // Change to apexad-website directory
-    process.chdir(path.join(__dirname, 'apexad-website'));
-    console.log('Working directory:', process.cwd());
-
-    // Install dependencies with timeout
-    console.log('Installing dependencies...');
-    await execWithTimeout('npm install --prefer-offline --no-audit --legacy-peer-deps', 600000); // 10 minutes
-
-    // Run build with timeout
-    console.log('Building project...');
-    await execWithTimeout('npm run build', 600000); // 10 minutes
-
-    console.log('Build completed successfully at:', new Date().toISOString());
-    process.exit(0);
-  } catch (error) {
-    console.error('Build failed:', error.message);
-    process.exit(1);
   }
-}
 
-// Start the build process
-build().catch(err => {
-  console.error('Unhandled build error:', err);
+  // Change to apexad-website directory
+  const websiteDir = path.join(__dirname, 'apexad-website');
+  console.log('Changing to directory:', websiteDir);
+  process.chdir(websiteDir);
+  console.log('Now in directory:', process.cwd());
+  console.log('Directory contents:', fs.readdirSync('.'));
+
+  // Install dependencies
+  console.log('Installing dependencies...');
+  execSync('npm install --legacy-peer-deps --no-audit', { 
+    stdio: 'inherit',
+    env: { 
+      ...process.env, 
+      CI: 'false',
+      NODE_OPTIONS: '--max-old-space-size=8192'
+    }
+  });
+
+  // Build the project
+  console.log('Building project...');
+  execSync('npm run build', { 
+    stdio: 'inherit',
+    env: { 
+      ...process.env, 
+      CI: 'false',
+      NODE_OPTIONS: '--max-old-space-size=8192'
+    }
+  });
+
+  console.log('Build completed successfully!');
+  process.exit(0);
+} catch (error) {
+  console.error('Build failed with error:', error.message);
+  
+  // Try to gather more information about the error
+  if (error.stderr) {
+    console.error('Standard error output:', error.stderr.toString());
+  }
+  if (error.stdout) {
+    console.error('Standard output:', error.stdout.toString());
+  }
+  
   process.exit(1);
-}); 
+} 
