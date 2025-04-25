@@ -2,10 +2,7 @@
   "version": 2,
   "buildCommand": "node vercel-build.js",
   "outputDirectory": "apexad-website/build",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "public": true,
-  "cleanUrls": true
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
