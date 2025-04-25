@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
+  "buildCommand": "node build.js",
   "outputDirectory": "apexad-website/build",
   "installCommand": null,
   "framework": null,

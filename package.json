@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd apexad-website && (rimraf node_modules/.cache || true) && npm install --legacy-peer-deps && CI=false npm run build",
+    "build": "node build.js",
     "start": "cd apexad-website && npm start",
     "dev": "cd apexad-website && npm start"
   },

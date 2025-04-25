@@ -16,6 +16,6 @@ npm install --legacy-peer-deps --no-audit --prefer-offline
 echo "Building project..."
 export CI=false
 export NODE_OPTIONS="--max-old-space-size=4096"
-npm run build
+CI=false npm run build
 
 echo "Build complete!" 
