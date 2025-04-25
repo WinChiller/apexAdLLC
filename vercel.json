@@ -2,14 +2,7 @@
   "version": 2,
   "buildCommand": "node build.js",
   "outputDirectory": "apexad-website/build",
-  "installCommand": "npm install",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "env": {
-    "NODE_OPTIONS": "--max-old-space-size=4096",
-    "CI": "false",
-    "SKIP_PREFLIGHT_CHECK": "true"
-  }
-} 
+  "installCommand": "npm install --no-progress",
+  "public": true,
+  "cleanUrls": true
+}
