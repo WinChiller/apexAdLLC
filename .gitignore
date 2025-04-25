@@ -30,4 +30,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts 
+next-env.d.ts
+
+# Ignore apexad-website submodule files that might be causing issues
+apexad-website/node_modules
+apexad-website/build 
